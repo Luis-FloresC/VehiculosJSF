@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+>
+<h:head>
+    <title>Manteniento de Vehiculos</title>
+</h:head>
+<h:body>
+    <p:ajaxStatus style="width: 16px; height: 16px;" id="ajaxStatusPanel">
+        <f:facet name="start">
+            <h:graphicImage library="image" name="ajaxloading.gif"/>
+        </f:facet>
+        <f:facet name="complete">
+            <h:outputText value="" />
+        </f:facet>
+
+    </p:ajaxStatus>
+
+    <h:form id="vehiculosListForm">
+        <p:growl id="messages" showDetail="true" />
+        <p:messages/>
+
+        <p:dataTable id="vehiculosDataTable"
+                     value="#{VehiculosBean.vehiculos}"
+                     var="vehiculo"
+                     editable="true"
+                     rowKey="#{vehiculo.idVehiculo}"
+                     selection="#{VehiculosBean.vehiculoSeleccionado}"
+                     selectionMode="single"
+        >
+            <f:facet name="header">Listado de Vehiculos</f:facet>
+            <p:column headerText="Id">
+                <h:outputText value="#{vehiculo.idVehiculo}"/>
+            </p:column>
+
+            <p:column headerText="Modelo">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{vehiculo.modelo}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{vehiculo.modelo}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Marca">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{vehiculo.marca}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{vehiculo.marca}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Color">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{vehiculo.color}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{vehiculo.color}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Placa">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{vehiculo.placa}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{vehiculo.placa}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Año">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{vehiculo.año}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{vehiculo.año}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+
+
+
+            <f:facet name="footer">
+                <p:commandButton value="Regresar" action="index"/>
+                <p:spacer height="5px"/>
+                <p:commandButton value="Agregar"
+                                 actionListener="#{VehiculosBean.ReinciarVehiculoSeleccionado}"
+                                 update=":dialogForm" oncomplete="PF('vehiculoDialog').show()" />
+            </f:facet>
+
+            <p:column headerText="Opciones" style="width: 50px">
+                <p:rowEditor/>
+            </p:column>
+
+            <p:ajax event="rowEdit" listener="#{VehiculosBean.editListener}"/>
+
+        </p:dataTable>
+
+        <p:contextMenu for="vehiculosDataTable">
+            <p:menuitem value="Eliminar" update="vehiculosListForm:vehiculosDataTable"
+                        icon="ui-icon-close"
+                        actionListener="#{VehiculosBean.elimnarVehiculo}" />
+        </p:contextMenu>
+
+    </h:form>
+
+    <p:dialog id="vehiculoDlg"
+              widgetVar="vehiculoDialog"
+              header="Agregar Vehiculo"
+              modal="true"
+              showEffect="fade"
+              hideEffect="fade"
+              resizable="false">
+        <h:form id="dialogForm">
+            <p:outputPanel id="vehiculoDetail" style="text-align: center">
+                <p:panelGrid id="display" columns="4" columnClasses="label, values">
+                    <h:outputText value="Modelo"/>
+                    <h:inputText value="#{VehiculosBean.vehiculoSeleccionado.modelo}" />
+
+                    <h:outputText value="Marca"/>
+                    <h:inputText value="#{VehiculosBean.vehiculoSeleccionado.marca}" />
+
+                    <h:outputText value="Color"/>
+                    <h:inputText value="#{VehiculosBean.vehiculoSeleccionado.color}" />
+
+                    <h:outputText value="Placa"/>
+                    <h:inputText value="#{VehiculosBean.vehiculoSeleccionado.placa}" />
+
+                    <h:outputText value="Año"/>
+                    <h:inputText value="#{VehiculosBean.vehiculoSeleccionado.año}" />
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Agregar"
+                                         actionListener="#{VehiculosBean.agregarVehiculo}"
+                                         update="display,:vehiculosListForm:vehiculosDataTable"
+                                         oncomplete="PF('vehiculoDialog').hide();"/>
+                    </f:facet>
+                </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+</h:body>
+</html>
+
