@@ -1,0 +1,9 @@
+unicah\edu\Servicio\VehiculoServicioImpl.class
+unicah\edu\Servicio\VehiculoServicioRestApi.class
+unicah\edu\Dominio\Vehiculo.class
+unicah\edu\Web\ConfiguracionBean.class
+unicah\edu\Datos\VehiculoDaoImpl.class
+unicah\edu\Servicio\iVehiculoServicioRemoto.class
+unicah\edu\Datos\iVehiculoDao.class
+unicah\edu\Web\VehiculosBean.class
+unicah\edu\Servicio\iVehiculoServicio.class
